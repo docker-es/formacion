@@ -61,7 +61,7 @@ $ sudo systemctl start docker
 ```
 Para activarlo al inicio de la maquina:
 ```
-$ sudo systemctl start docker
+$ sudo systemctl enable docker
 ```
 
 Podemos ver si esta intalado y funcionando:
