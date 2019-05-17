@@ -6,6 +6,85 @@ tags: Docker,
 date_published: 2019-05-10
 ---
 
+# volumenes
+
+Volúmen - Es la manera sencilla y predefinida para almacenar todos los ficheros (salvo unas pocas excepciones) de un contenedor, usará el espacio de nuestro equipo real y en “/var/lib/docker/volumes” creará una carpeta para cada contenedor.
+
+Recordemos que en Linux/Unix “todo es un fichero”.
+
+Podemos crear un volúmen con un nombre especial (que pueda facilitar su gestión) o dejar que el propio Docker le asigne un “hash”.
+
+Ahora creamos un volúmen llamado “mis_datos”.
+
+	$ docker volume create mis_datos
+
+Veremos las propiedades de ese volúmen y donde está almacenado en nuestro equipo real “/var/lib/docker/volumes/mis_datos/_data”.
+
+	$ # docker volume inspect my-vol
+
+También podremos eliminar ese volúmen con la opción “rm”.
+
+  $ docker volume rm mis_datos
+
+Hasta que no borremos los contenedores que usen ese volúmen, no podremos borrarlo.
+
+Ejemplo de creación de un nuevo contenedor usando ese volúmen, asociándolo a la carpeta “/var/lib/mysql” del contenedor.
+
+  $ docker run -d -it --name ubu1 -v mis_datos:/var/lib/mysql ubuntu:17.10
+
+Podemos crear un volúmen que sea usado por varios servidores webs mediante el parámetro “service”, solo se pueden montar volúmenes usando la sintaxis “–mount” en lugar del “-v”.
+
+  $ docker service create -d --replicas=4 --name web-service --mount source=mis_datos,target=/app ubuntu:17.10
+
+Es posible definir un volúmen de “solo lectura” agregando el modificador “:ro”. Volviendo a nuestro ejemplo anterior, ahora el volúmen montado “mis_datos” será de lectura solamente.
+
+  $ docker run -d -it --name ubu1 -v mis_datos:/var/lib/mysql:ro ubuntu:17.10
+
+## Volúmen bind / conectados 
+
+- Es una manera de asociar una carpeta de nuestro equipo real y mapearla como una carpeta dentro de un contenedor.
+
+Este sistema nos permite ver esa carpeta desde el contenedor y también desde nuestro equipo real.
+
+Usar esos ficheros, copiarlos y además en caso de tener una solución de almacenamiento distribuido, poder tener múltiples copias.
+
+Un caso de uso, es tener un portal web que queremos que se active en 20 contenedores en distintas partes del mundo, en nuestro equipo real creamos una carpeta y colocamos dentro todos los ficheros necesarios para ese web.
+
+Replicamos la carpeta en otros servidores reales y se podrá usar por otros contenedores. (soluciones como hdfs o hadoop ayudan aún mas)
+
+Como los ficheros que son creados en esa carpeta por el contenedor son visibles, podemos usarlos en un servicio en nuestro equipo real o en otros contenedores que lo monten.
+
+Nuestro ejemplo será crear otro contenedor, llamado “ubu2”, donde una carpeta local de nuestro equipo real “/var/lib/mysql2” (2) se mapeará como “/var/lib/mysql” en el contenedor.
+
+  $ docker run -d -it --name ubu2 -v /var/lib/mysql2:/var/lib/mysql ubuntu:17.10
+
+También es posible usar una refencia relativa a la carpeta donde estémos parados al correr la creación del contenedor. (pwd)
+
+  $ docker run -d -it --name ubu2 -v "$(pwd)"/datos:/var/lib/mysql ubuntu:17.10
+
+El comando inspect del contenedor nos dará mas información sobre la unidad montada. En este caso la carpeta “/tmp/datos” se montará como “/var/lib/mysql” en el contenedor. Indica que el acceso es R/W (lectura y escritura).
+
+  $ docker inspect ubu2
+
+TMPFS (temporal file system) es una manera de montar carpetas temporales en un contenedor.
+
+Usan la RAM del equipo y su contenido desaparecerá al parar el contenedor.
+
+En caso de tener poca RAM, los ficheros se parasán al SWAP del equipo real.
+
+Crearemos otro contenedor donde una determinada carpeta de un servidor web será “temporal”.
+
+ $ docker run -d -it --name ubu3 --tmpfs /var/html/tempo ubuntu:17.10
+
+Salvo que indiquemos una limitación de espacio usando el modificador “tmpfs-size=999bytes”, el espacio que pueden ocupar los ficheros es ilimitado (o limitado por el espacio disponible de RAM)
+
+Este tipo de almacenamiento puede ser usado para almacenar ficheros de sesiones web, temporales o contenido que nos interese que se borre en cada rearranque del contenedor.
+
+
+
+
+
+
 # Storing and Distributing Images
 
 ### Docker hub
