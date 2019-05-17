@@ -8,7 +8,87 @@ date_published: 2019-05-10
 
 # volumenes
 
-Volúmen - Es la manera sencilla y predefinida para almacenar todos los ficheros (salvo unas pocas excepciones) de un contenedor, usará el espacio de nuestro equipo real y en “/var/lib/docker/volumes” creará una carpeta para cada contenedor.
+Una de las mas importantes funcionalidades de Docker son los volúmenes.
+
+Estos no son mas que carpetas en nuestro sistema de ficheros que son capaces de sobrevivir al ciclo de vida normal del contenedor. Los volúmenes suponen el modo en el que Docker permite persistir los datos de tu aplicación. Los aloja fuera del propio contenedor, en el propio sistema de archivos del host donde está corriendo Docker, de tal manera que se puede cambiar, apagar o borrar el contenedor sin que afecte a los datos.
+
+Los volúmenes son bastante útiles porque permiten compartirse entre contenedores, o el propio host. Eso nos permite cosas como:
+ 
+- Una de las mas importantes funcionalidades de Docker son los volúmenes.
+
+Estos no son mas que carpetas en nuestro sistema de ficheros que son capaces de sobrevivir al ciclo de vida normal del contenedor. Los volúmenes suponen el modo en el que Docker permite persistir los datos de tu aplicación. Los aloja fuera del propio contenedor, en el propio sistema de archivos del host donde está corriendo Docker, de tal manera que se puede cambiar, apagar o borrar el contenedor sin que afecte a los datos.
+
+Los volúmenes son bastante útiles porque permiten compartirse entre contenedores, o el propio host. Eso nos permite cosas como:
+
+- Montar el código fuente de una aplicación web, dentro de un volumen, accesible desde el contenedor web y así ver en tiempo real los cambios durante el desarrollo.
+
+- Consultar todos los logs cómodamente desde un contenedor dedicado.
+
+- Hacer backups de un contenedor desde otro dedicado, o recuperar esos mismo backups hacia nuestro host.
+
+- Compartir la misma información entre varios contenedores sin duplicarla. Por ejemplo la información relativa al entorno: desarrollo, integración, preproducción, producción.
+
+De hecho, he visto contenedores con la única función de producir ficheros (.tar.gz, .deb, …) en volúmenes que luego son consumidos por servicios de runtime, por ejemplo un servidor web, un repositorio o simplemente un NFS. Para ello hay que definir qué parte del contenedor se dedica a la aplicación y qué parte a los datos.
+
+- Los volúmenes de datos están diseñados para conservar los datos, independientemente del ciclo de vida del contenedor.
+
+- Docker, por lo tanto, nunca elimina automáticamente los volúmenes cuando se elimina un contenedor, ni tampoco “recoge basura”: volúmenes huerfanos a los que ya no hace referencia un contenedor.
+
+- Los volúmenes son específicos de cada contenedor, es decir, que puedes crear n contenedores a partir de una misma imagen y definir volúmenes diferentes para cada uno de ellos:
+
+- Los volúmenes también pueden usarse para compartir información entre contenedores.Montar el código fuente de una aplicación web, dentro de un volumen, accesible desde el contenedor web y así ver en tiempo real los cambios durante el desarrollo.
+
+- Consultar todos los logs cómodamente desde un contenedor dedicado.
+
+- Hacer backups de un contenedor desde otro dedicado, o recuperar esos mismo backups hacia nuestro host.
+
+- Compartir la misma información entre varios contenedores sin duplicarla. Por ejemplo la información relativa al entorno: desarrollo, integración, preproducción, producción.
+
+## Tipos de Volúmenes
+
+Los volúmenes pueden ser de 3 tipos distintos, y se categorizan según esta lista:
+
+- Data volumes
+    - Anonymous data volumes
+    - Named data volumes
+- Mounted volumes
+
+### Anonymous data volumes
+Se crean cuando se levanta un contenedor y no se le asigna un nombre concreto, mediante el comando docker run, por ejemplo:
+
+	$ docker run -ti --rm -v /data alpine:3.4 sh
+
+A su vez, otro contenedor puede montar los volúmenes de otro contenedor, ya sea porque los creó o porque los ha montado de un tercero.
+
+	$ docker run -ti --rm --volumes-from adoring_lovelace alpine:3.4 sh
+
+### Named data volumes
+
+Estos volúmenes no dependen de ningún contenedor concreto, y se pueden montar en cualquier contenedor. Se crean específicamente usando el comando docker volume create, o al ejecutar un contenedor si le damos un nombre en la línea de comandos.
+```
+	$ docker volume create --name vol1
+		vol1
+	$ docker run -ti --rm -v vol2:/data alpine:3.4 true
+	$ docker volume ls
+		DRIVER              VOLUME NAME
+		local               vol1
+		local               vol2
+```
+Estos volúmenes no se eliminan por si solos nunca y persisten cuando su contenedor desaparece. Para eliminarlos se necesita una intervención manual mediante el comando docker volume rm.
+
+## Mounted volumes
+
+Otras veces nos interesa montar ficheros o carpetas desde la máquina host. En este caso, podemos montar la carpeta o el fichero especificando la ruta completa desde la máquina host, y la ruta completa en el contenedor. Es posible también especificar si el volumen es de lectura y escritura (por defecto) o de solo lectura.
+```
+$ docker run -ti --rm -v /etc/hostname:/root/parent_name:ro -v /opt/:/data alpine:3.4 sh
+$ cat /root/parent_name
+$ ls /data/
+```
+Este último caso es ideal para recuperar *backups* o ficheros generados en un contenedor, en vistas a su utilización futura por parte de otros contenedores o del mismo *host*.
+
+# Tocando los Volumenes
+
+Con los volumenes tenemos la manera sencilla y predefinida para almacenar todos los ficheros (salvo unas pocas excepciones) de un contenedor, usará el espacio de nuestro equipo real y en “/var/lib/docker/volumes” creará una carpeta para cada contenedor.
 
 Recordemos que en Linux/Unix “todo es un fichero”.
 
@@ -29,8 +109,11 @@ También podremos eliminar ese volúmen con la opción “rm”.
 Hasta que no borremos los contenedores que usen ese volúmen, no podremos borrarlo.
 
 Ejemplo de creación de un nuevo contenedor usando ese volúmen, asociándolo a la carpeta “/var/lib/mysql” del contenedor.
-
+```
   $ docker run -d -it --name ubu1 -v mis_datos:/var/lib/mysql ubuntu:17.10
+  # Otro ejemplo
+  $ docker run -d -v $(pwd)/data:/data awesome/app bootstrap.sh
+```
 
 Podemos crear un volúmen que sea usado por varios servidores webs mediante el parámetro “service”, solo se pueden montar volúmenes usando la sintaxis “–mount” en lugar del “-v”.
 
@@ -234,3 +317,43 @@ Ahora que ya tenemos todo restaurado, solo hace falta arrancar un contenedor que
 	$ docker run -d --restart unless-stopped --name **my-app** -v vol-my-app:/var/lib/my-app -p 8888:8888/tcp my-app_backup
 
 Ejecutando **docker stats** podremos ver que nuestro contenedor ha vuelto a la vida después de morir súbitamente.
+
+# En nuevas versiones
+
+En la versión 17.03 (1.13) por ejemplo es posible usar volúmenes NFS de forma nativa, perfectamente válidos para despliegues con contenido estático o aquellos aplicativos en los que el contenido se cargue en memoria en arranque, por ejemplo.
+```
+$ docker service create –name nfstest \
+
+–mount type=volume,volume-opt=o=addr=192.168.1.111,volume-opt=device=:/DATA/NFS,volume-opt=type=nfs,source=DATA_NFS,target=/DATA,readonly=false \
+
+–replicas 1 busybox ping www.google.es
+
+# docker nfstest cd607740218a ls -lart /DATA
+
+total 4
+
+-rw-r–r– 1 root root 0 Jan 3 10:33 test_file
+
+drwxrwxrwx 2 65534 65534 32 Jan 3 11:12 .
+
+drwxr-xr-x 19 root root 4096 Mar 21 14:47 ..
+```
+
+En este ejemplo podemos comprobar el funcionamiento de los volúmenes gestionados de esta forma.
+
+Existe gran variedad de plugins para poder conectar con nuestro almacenamiento y la elección de unos frente a otros estará fundamentada en nuestra infraestructura, tanto hardware como software (hardware defined storage o software defined storage). Sólo por citar algunos de los más conocidos:
+
+   - Azure File Storage -> Permite montar almacenamiento de Azure en contenedores usando SMB.
+   - Contiv -> Permite el uso de almacenamiento en entornos multi-tenant usando Ceph y NFS.
+   - Convoy -> Plugin que permite el uso de diferentes back-ends, tales como device mapper y NFS. - - - Permite realizar snapshots, backups/restore de volúmenes.
+   - Flocker -> Permite almacenamiento multi-host en un entorno de software defined storage.
+   - GCE-docker -> Permite usar almacenamiento perstistente del entorno cloud de Google.
+   - GlusterFS -> Uso de volúmenes mediante GlusterFS.
+   - HPE 3Par -> Soporta almacenamiento HPE 3Par and StoreVirtual iSCSI del fabricante HPE.
+   - NetApp (nDVP) -> Soporta volúmenes sobre productos de NetApp.
+   - Netshare -> Permite el uso de NFS 3/4, AWS EFS y CIFS. Es una buena alternativa al plugin nativo de Docker y muy sencillo de usar.
+   - REX-Ray -> Incluye soporte para diversas plataformas como VirtualBox, EC2, Google Compute Engine,- OpenStack, y productos EMC. Permance como opensource respaldado por Dell-EMC.
+   - VMware vSphere Storage -> Plugin específico para trabajar con la plataforma vSphere.
+
+Desde la versión 17.03 de Docker existen los “Plugins Certificados”. Esto supone que Docker Inc, certifica estos desarrollos de los fabricantes en la infraestructura Docker de manera que tendremos el aseguramiento y soporte de ambos para su correcto funcionamiento. Como no podría ser de otra forma, dentro de los plugins certificados, los de almacenamiento son de gran importancia porque muestran el compromiso de los fabricantes con la plataforma Docker.
+
