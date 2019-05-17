@@ -8,7 +8,7 @@ date_published: 2019-05-10
 
 # Introducción Docker-compose auto arranque
 
-Y en  “/etc/systemd/system/docker-compose@.service” añadimos el fichero **docker-compose@.service**
+Y en  “/etc/systemd/system/docker-compose.service” añadimos el fichero **docker-compose.service**
 con la siguiente contendio
 #----------------------------------------------------------------------------------------------
 ```

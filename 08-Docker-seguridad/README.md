@@ -133,6 +133,9 @@ Crea un servicio redis y concédele acceso al secreto. De forma predeterminada, 
 $ docker service create --name redis --secret my_secret_data redis: alpine
 
 
+## Secretos con [VAULT](https://www.bbva.com/es/gestion-secretos-contenedores-docker/)
+
+
 
 # Docker y seguridad
 

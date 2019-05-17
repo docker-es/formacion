@@ -226,3 +226,47 @@ Debe mostrar que el nodo tiene una DISPONIBILIDAD de pausa. Para volver a agrega
 
     $ docker node update --availability active swarm-manager
 
+
+# Usando Docker-machine
+
+(Usando como ejemplo:)[https://www.adictosaltrabajo.com/2015/12/03/docker-compose-machine-y-swarm/]
+
+Inicamos la primera maquina
+
+$ docker-machine create --driver virtualbox dev
+
+Confirmamos
+$ docker-machine ls
+
+Localizamos IP
+$ docker-machine <IP_MASTER>
+
+Accedemos a la maquina
+$ docker-machine ssh <IP_MASTER>
+
+Creamos la maquina como master 
+
+$ docker swarm init --advertise-addr <IP-GESTION>  ->Guardamos el TOKEN
+$ docker exit
+
+Creamos dos maquinas más:
+
+
+$ docker-machine create --driver virtualbox dev01
+$ docker-machine create --driver virtualbox dev02
+
+Accedemos a la segunda maquian
+$ docker-machine ssh <ip-dev01>
+$ docker swarm join --token <ID-TOKEN> <IP_MASTER>:2377
+
+# Si no nos acordamos del comando, ejecutamos en el master:
+$ docker swarm join-token worker
+
+Repetimos con la seguna maquina
+
+Accedemos a la segunda maquian
+$ docker-machine ssh <ip-dev02>
+$ docker swarm join --token <ID-TOKEN> <IP_MASTER>:2377
+
+Al final tenemos tres maquinas siendo la primera master.
+A parti de aqui gestionamos todo desde la maquinas MASTER.
