@@ -1,3 +1,11 @@
+---
+title: Usando Docker compose.
+description: Aprendemos Docker-compose y a usar las regras
+author: Mario Ezquerro
+tags: Docker, 
+date_published: 2019-05-10
+---
+
 # Secrets
 
 Acerca de los secretos
