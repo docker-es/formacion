@@ -7,14 +7,14 @@ Ansible es software libre GPL 3.0 y es la base de [Ansible Tower](https://www.an
 
 
 # Instación de Ansible
-
+```
 sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt full-upgrade -yq
 sudo DEBIAN_FRONTEND=noninteractive apt install software-properties-common -yq
 sudo apt-add-repository ppa:ansible/ansible -y
 sudo apt update
 sudo DEBIAN_FRONTEND=noninteractive apt install ansible -yq
-
+```
 
 ## Nodos administrados
 CC [Bartolomé Sintes Marco](http://www.mclibre.org/consultar/webapps/lecciones/ansible-1.html)
@@ -95,7 +95,7 @@ ansible-playbook playbook-1-1.yaml
     PLAY RECAP **********************************************************************
     192.168.1.16                 : ok=2     changed=1   unreachable=0    failed=0
 ```
-- En el nodo administrado puede comprobar que se ha creado el fichero listado.txt con el listado deldirectorio.
+- En el nodo administrado puede comprobar que se ha creado el fichero listado.txt con el listado del directorio.
 - Para obtener más información sobre la ejecución del playbook, ejecute el archivo con la opción--verbose:
 ```
     ansible-playbook playbook-1-1.yaml --verbose

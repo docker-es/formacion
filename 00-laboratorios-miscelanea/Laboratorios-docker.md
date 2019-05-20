@@ -2,7 +2,7 @@
 
 Estos labs están organizados por niveles, desde iniciados hasta avanzados, sistemas operativos, lenguaje de producción o perfil técnico. Muchos de ellos son totalmente interactivos, lo que facilita su realización.
 
- [Laboratorios de Docker](dockerlab.png)
+ ![Laboratorios de Docker](./imagenes/dockerlab.png)
 
 ## Laboratorios nivel iniciado en Docker:
 
@@ -220,7 +220,7 @@ Para realizar este ejemplo vamos a utilizar el ejemplo que hemos usado para crea
 mkdir github-dockerhub
 cd github-dockerhub
 ssh-keygen -t rsa -C "mario.ezquerro@gmail.com"
-# copiar la /Users/your_user_directory/.ssh/id_rsa.pub en github -> [ver](github-ssh-up.png)
+# copiar la /Users/your_user_directory/.ssh/id_rsa.pub en github -> ![ver](./imagenes/github-ssh-up.png)
 # verificamos
 ssh git@github.com
 #
@@ -239,10 +239,10 @@ A continuación desde docker hub tenemos que crear un “Automated Build”:
 
 La primera vez que lo hacemos tenemos que conectar docker con github y permitir que docker hub pueda acceder a nuestro repositorio, elegimos que nos vamos a conectar a github y seleccionamos la primera opción (Public and Private) donde permitamos más opciones de trabajo, finalmente desde github autorizamos a la aplicación docker hub. Para conseguir todo esto tenemos que seguir los siguiente pasos:
 
-[imgen1](github-conexion.png)
+![imgen1](./imagenes/github-conexion.png)
 
-[imgen3](activacion-repositorios.png)
+![imgen3](./imagenes/activacion-repositorios.png)
 
-[imgen2](conexiondockerhub-github.png)
+![imgen2](./imagenes/conexiondockerhub-github.png)
 
-[imgen4](automatizacion-dockerhub.png)
+![imgen4](./imagenes/automatizacion-dockerhub.png)

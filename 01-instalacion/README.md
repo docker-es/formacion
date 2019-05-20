@@ -18,7 +18,7 @@ En julio de 2018, Docker anunció que volvían a un desarrollo más pausado. Por
 
 Docker ofrece una versión Enterprise (de pago) y una versión Community (gratuita). La diferencia radica en el nivel de soporte y certificación que proporciona Docker a la versión Enterprise.
 
-[Cronograma de versiones](cronograma.png)
+![Cronograma de versiones](./cronograma.png)
 
 Los contenedores se distinguen de las máquinas virtuales en que las máquinas virtuales emulan un ordenador físico en el que se instala un sistema operativo completo, mientras que los contenedores usan el kernel del sistema operativo anfitrión pero contienen las capas superiores (sistema de ficheros, utilidades, aplicaciones).
 
@@ -50,7 +50,7 @@ Docker es un sistema de administración de contenedores que nos ayuda a administ
 Esto ayuda a no tener que hacer las cosas de manera diferente cuando pasa de un entorno de desarrollo como el de su máquina local a un entorno de producción en su servidor. Ahora, echemos un vistazo a las diferencias entre los contenedores de Docker y los entornos típicos de máquinas virtuales.
 La siguiente ilustración muestra la diferencia entre un servidor dedicado y no especializado y un servidor que ejecuta máquinas virtuales::
 
- [Esquema de ejemplo VM vs Docker  ](index-01.png)
+![Esquema de ejemplo VM vs Docker  ](index-01.png)
 
 ## Instalacion en Linux
  Habrimos un entorno shell y en modo superusuario podemos hacer la instalación par un ubuntu
@@ -79,7 +79,7 @@ $ docker container run -d --name nginx-test -p 8080:80 nginx
 El primero de los dos comandos descarga la imagen del contenedor NGINX, y el segundo lanza un contenedor en el fondo llamado nginx-test usando la imagen nginx que tirado. También asigna el puerto 8080 en nuestra máquina host al puerto 80 en el contenedor, haciéndolo
 accesible a nuestro navegador local en este [enlace](http://localhost:8080/)
 
-[Salida del comando docker version](index-02.png)
+![Salida del comando docker version](index-02.png)
 
 
 Necesitaremos utilidades para la gesion de  docker para lo que instalaremos [docker-compòse](https://docs.docker.com/compose/install/) y tambien instalaremos [docker-machine](https://docs.docker.com/machine/install-machine/).
