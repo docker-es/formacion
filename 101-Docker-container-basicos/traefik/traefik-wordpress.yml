@@ -1,0 +1,69 @@
+version: "3.3"
+services:
+  traefik:
+    image: traefik
+    command: --web \
+      --docker \
+      --docker.swarmmode \
+      --docker.domain=traefik.kb \
+      --docker.watch \
+      --logLevel=DEBUG
+    networks:
+      - traefik-net
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+    deploy:
+      placement:
+        constraints: [node.role==manager]
+ 
+  portainer:
+    image: portainer/portainer
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "portainerdata:/data"
+    networks:
+      - traefik-net
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        - "traefik.enable=true"
+        - "traefik.port=9000"
+        - "traefik.docker.network=mystack_traefik-net"
+        - "traefik.frontend.rule=Host:82.223.36.229"
+ 
+  ms1:
+    image: melvindave/spring-boot-example
+    networks:
+      - traefik-net
+    depends_on:
+      - mongodb
+    deploy:
+      replicas: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.port=8080"
+        - "traefik.docker.network=mystack_traefik-net"
+        - "traefik.frontend.rule=Host:82.223.36.229"
+ 
+  mongodb:
+    image: mongo
+    volumes:
+      - "mongodata:/data/db"
+    networks:
+      - traefik-net
+    deploy:
+      replicas: 1
+    ports:
+      - "27017:27017" 
+ 
+networks:
+  traefik-net:
+ 
+volumes:
+   portainerdata:
+   mongodata:
