@@ -48,9 +48,102 @@ Descripción general de Docker
 Docker es un sistema de administración de contenedores que nos ayuda a administrar fácilmente los Contenedores de Linux (LXC) de una manera más fácil y universal. Esto le permite crear imágenes en entornos virtuales en su ordenador portátil y ejecutar comandos contra ellos. Las acciones que realice en los contenedores que ejecute en estos entornos localmente en su propia máquina serán los mismos comandos u operaciones que ejecute contra ellos cuando se ejecuten en su entorno de producción.
 
 Esto ayuda a no tener que hacer las cosas de manera diferente cuando pasa de un entorno de desarrollo como el de su máquina local a un entorno de producción en su servidor. Ahora, echemos un vistazo a las diferencias entre los contenedores de Docker y los entornos típicos de máquinas virtuales.
-La siguiente ilustración muestra la diferencia entre un servidor dedicado y no especializado y un servidor que ejecuta máquinas virtuales::
+La siguiente ilustración muestra la diferencia entre un servidor dedicado y no especializado y un servidor que ejecuta máquinas virtuales:
+
+
+## Instalación de Docker
+
+Dependiendo del sistema operativo utilizado, realizar la instalación de Docker y docker-compose (sólo Linux)
+
+- Windows
+- MacOS
+- Linux (CentOS, Debian, Ubuntu, Fedora).
+
+### CentOS 7+
+```
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce
+sudo systemctl start docker
+```
+
+### Ubuntu 16.04+
+
+```
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-get install docker-ce
+```
+
+### Post-instalación (sólo Linux)
+
+Docker-compose En sistemas Linux, es necesario instalar docker-compose adicionalmente:
+```
+sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+``` 
+Identificamos la versión de docker-compose para verificar su funcionamiento.
+
+    $ docker-compose --version
+
+Versión de docker-compose
+
+Finalmente, se crea un grupo docker y se agrega el usuario actual para poder ejecutar comandos sin necesidad de ser usuario root.
+```
+    # sudo groupadd docker
+    # sudo usermod -aG docker $USER
+```
+
+Reiniciamos la sesión en el sistema. En caso de utilizar una máquina virtual es necesario reiniciarla para que los cambios surtan efecto.
+
+Si la instalación se realizó correctamente, ejecutamos el siguiente comando para levantar el contenedor hello-world: docker run hello-world
+
+## Algunos tips
+
+Crea el grupo docker si no existe ya:
+```
+    # groupadd --system docker
+
+    Edita /etc/sysconfig/docker y añade -G docker a OPTIONS
+    Añade tu usuario al grupo docker:
+
+    # usermod -aG docker tu_usuario
+
+    Reinicia docker:
+
+    # systemctl restart docker
+
+    Cierra y abre tu sesión
+```
+
+Quizá prefieras usar el grupo wheel (los que tienen acceso a sudo) y te ahorras los pasos de crear el grupo.
 
 ![Esquema de ejemplo VM vs Docker  ](index-01.png)
+
+Con las nuevas versiones (y es importante sobre todo si usas los repositorios oficiales y no los de tu distribución), la ubicación por defecto de la configuración de Docker Engine es /etc/docker/daemon.json, y sí, efectivamente se trata de un fichero JSON.
+
+Aunque se nos proporciona una plantilla para que sepamos de qué opciones dispone, esta es la mía (Fedora de desarrollo local), por si sirve a alguien:
+```
+{
+    "group": "wheel",
+    "icc": false,
+    "log-driver": "journald",
+    "selinux-enabled": true,
+    "storage-driver": "overlay2"
+}
+```
+Creo que son las configuraciones más importantes:
+
+- Ya que usar Docker equivale a ser root en muchos casos, usar el grupo wheel te facilita la tarea: todos los administradores tienen acceso al socket de Docker por defecto.
+- Deshabilitar icc (Inter-Container Communication) hace que los contenedores solo se puedan comunicar entre sí si comparten un link o una red. Normalmente en producción ha de ser así, así que mejor te vas acostumbrando en desarrollo.
+- Los otros controladores de almacenamiento siempre me han dado errores, overlay2 funciona de maravilla.
+- journald es el único controlador de registros con soporte completo y que no te infla el sistema hasta quedarse sin espacio, como hace el json-file que viene por defecto.
+- SELinux es importante tenerlo activado siempre que se pueda.
+
+
+
+
 
 ## Instalacion en Linux
  Habrimos un entorno shell y en modo superusuario podemos hacer la instalación par un ubuntu
