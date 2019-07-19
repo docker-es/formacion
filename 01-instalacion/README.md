@@ -146,7 +146,7 @@ Creo que son las configuraciones más importantes:
 
 
 ## Instalacion en Linux
- Habrimos un entorno shell y en modo superusuario podemos hacer la instalación par un ubuntu
+Abrimos un entorno shell y en modo superusuario podemos hacer la instalación par un ubuntu
 
 ```
 $ curl -sSL https://get.docker.com/ | sh
