@@ -66,3 +66,11 @@ El script creará varios hosts llamados [contenedor].docker.local donde contened
     172.17.0.2 redis.docker.local
 
 
+
+### Obtener la direccion IP privada de un contenedor
+
+    $ docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" CONTENEDOR
+
+### Para ver las ultimas, por ejemplo, 20 lineas de los logs del contenedor, ejecutamos:
+
+    $ docker logs --follow --tail=20 CONTENEDOR

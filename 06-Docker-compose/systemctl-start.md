@@ -8,8 +8,16 @@ date_published: 2019-05-10
 
 # Introducción Docker-compose auto arranque
 
-Y en  “/etc/systemd/system/docker-compose.service” añadimos el fichero **docker-compose.service**
+Aunque podemos activar el inicio automatico con la opcion:
+
+ $ docker create -it --restart=always --name contenedor imagen/contenedor
+
+No nos permitira una gestion efectiva, tenemos que usar otra formula.
+
+
+Podemos crear en  “/etc/systemd/system/docker-compose.service” añadimos el fichero **docker-compose.service**
 con la siguiente contendio
+
 #----------------------------------------------------------------------------------------------
 ```
 [Unit]

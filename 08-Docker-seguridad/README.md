@@ -120,7 +120,7 @@ http {
 }
 ```
 
-## Lea más sobre los comandos secretos de la ventana acoplable.
+## Lea más sobre los comandos secretos de docker.
 
 Use estos enlaces para leer sobre comandos específicos, o continúe [con el ejemplo sobre el uso de secretos con un servicio](https://docs.docker.com/engine/swarm/secrets/#build-support-for-docker-secrets-into-your-images).
 
@@ -218,3 +218,16 @@ En cuanto al análisis estático de vulnerabilidades de los componentes software
 Por otro lado, en cuanto al análisis de dependencias de distintos framworks de aplicaciones, Dagda se integra con el proyecto [Docker dependency checker](https://hub.docker.com/r/deepfenceio/deepfence_depcheck/), el cual utiliza [OWASP Dependency Check](https://www.owasp.org/index.php/OWASP_Dependency_Check) y [Retire.js](http://retirejs.github.io/retire.js/) para analizar múltiples lenguajes como son: Java, Python, Node.js, JavaScript, Ruby & PHP. 
 
 Dagda soporta también la detección de comportamientos anómalos en contenedores Docker en ejecución en base a reglas gracias a su integración con [Sysdig/Falco](http://www.sysdig.org/falco/), siendo dichas reglas, ampliables también según las necesidades del usuario en cada entorno de trabajo o producción.
+
+
+## Temas complementarios (15% of exam)
+
+[El proceso de firma de una imagen.](https://docs.docker.com/engine/security/trust/content_trust/#push-trusted-content)
+[Com usar una imagen pasa un escaneo de seguridad.](https://docs.docker.com/docker-cloud/builds/image-scan/)
+[Habilitar Docker Content Trust](https://docs.docker.com/engine/security/trust/content_trust/)
+[Configurar RBAC en UCP](https://docs.docker.com/datacenter/ucp/2.2/guides/access-control/)
+[Integrar UCP con LDAP/AD](https://docs.docker.com/datacenter/ucp/2.2/guides/admin/configure/external-auth/)
+[Usando la creación de paquetes de clientes UCP](https://blog.docker.com/2017/09/get-familiar-docker-enterprise-edition-client-bundles/)
+[La seguridad del motor por docker por defecto](https://docs.docker.com/engine/security/security/)
+[La seguridad en swarm.](https://docs.docker.com/engine/swarm/how-swarm-mode-works/pki/)
+[Que es MTLSS](https://diogomonica.com/2017/01/11/hitless-tls-certificate-rotation-in-go/)
