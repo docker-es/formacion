@@ -73,4 +73,6 @@ El script creará varios hosts llamados [contenedor].docker.local donde contened
 
 ### Para ver las ultimas, por ejemplo, 20 lineas de los logs del contenedor, ejecutamos:
 
-    $ docker logs --follow --tail=20 CONTENEDOR
+```markdown
+$ docker logs --follow --tail=20 CONTENEDOR
+```
