@@ -12,7 +12,7 @@ CC por [Bartolomé Sintes Marco](http://www.mclibre.org/consultar/webapps/index.
 
 [Docker](https://www.docker.com) es un sistema de virtualización de aplicaciones mediante contenedores, creado por Solomon Hykes y otros ingenieros. En 2013 se convirtió en un proyecto de software libre (licencia Apache) en el que participan cada vez más empresas. La versión 1.0 se publicó en junio de 2014 y ha tenido un desarrollo muy rápido.
 
-En marzo de 2017, Docker anunció una desarrollo todavía más rápido, pasando a publicar una nueva versión cada mes. La numeración de las versiones adoptó al formato AA.MM (año y mes). Estas versiones mensuales se han estado manteniendo solamente durante un mes, aunque cada trimestre una de esas versiones se han mantenido durante cuatro meses (la primera fue Docker 17.03).
+En marzo de 2017, Docker anunció un desarrollo todavía más rápido, pasando a publicar una nueva versión cada mes. La numeración de las versiones adoptó al formato AA.MM (año y mes). Estas versiones mensuales se han estado manteniendo solamente durante un mes, aunque cada trimestre una de esas versiones, se mantiene mantenido durante cuatro meses (la primera fue Docker 17.03).
 
 En julio de 2018, Docker anunció que volvían a un desarrollo más pausado. Por un lado, se dejaron de publicar las versiones mensuales (aunque se publica una versión diaria inestable) y que a partir de Docker 18.09, en vez de una versión "estable" cada tres meses habrá una versión "estable" cada seis meses que se mantendrá durante siete meses.
 
@@ -82,7 +82,7 @@ Docker-compose En sistemas Linux, es necesario instalar docker-compose adicional
 ```
 sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-``` 
+```
 Identificamos la versión de docker-compose para verificar su funcionamiento.
 
     $ docker-compose --version
@@ -145,8 +145,8 @@ Creo que son las configuraciones más importantes:
 
 
 
-## Instalacion en Linux
- Habrimos un entorno shell y en modo superusuario podemos hacer la instalación par un ubuntu
+## Instalación en Linux
+Abrimos un entorno shell y en modo superusuario podemos hacer la instalación par un ubuntu
 
 ```
 $ curl -sSL https://get.docker.com/ | sh
@@ -175,7 +175,7 @@ accesible a nuestro navegador local en este [enlace](http://localhost:8080/)
 ![Salida del comando docker version](index-02.png)
 
 
-Necesitaremos utilidades para la gesion de  docker para lo que instalaremos [docker-compòse](https://docs.docker.com/compose/install/) y tambien instalaremos [docker-machine](https://docs.docker.com/machine/install-machine/).
+Necesitaremos utilidades para la gestión de  docker para lo que instalaremos [docker-compose](https://docs.docker.com/compose/install/) y tambien instalaremos [docker-machine](https://docs.docker.com/machine/install-machine/).
 
 
 
@@ -185,6 +185,7 @@ Necesitaremos utilidades para la gesion de  docker para lo que instalaremos [doc
 #
 [Docker Cheat Sheet](https://github.com/wsargent/docker-cheat-sheet)
 Una vez instalado Docker, todo se gestiona mediante comandos, que en Ubuntu se deben ejecutar como administrador:
+
 ```
     $ sudo docker COMANDOS
 ```
@@ -211,8 +212,8 @@ Si el valor de una opción contiene espacios, escriba el valor entre comillas
 ```
 
 ### Imágenes
-#
-En los comandos siguientes REPOSITORIO es el nombre del repositorio en el que se encuentra la imagen (por ejemplo usuario/phpmyadmin) e IMAGEN es el nombre de la imagen descargada. Realmente, las imágenes descargadas se llaman igual que los repositorios de donde se han descargado, pero he distinguido los nombres para dejar claro cuándo nos estamos haciendo referencia a la imagen del repositiorio y cuándo a la imagen local.
+
+En los comandos siguientes REPOSITORIO es el nombre del repositorio en el que se encuentra la imagen (por ejemplo usuario/phpmyadmin) e IMAGEN es el nombre de la imagen descargada. Realmente, las imágenes descargadas se llaman igual que los repositorios de donde se han descargado, pero he distinguido los nombres para dejar claro cuándo nos estamos haciendo referencia a la imagen del repositorio y cuándo a la imagen local.
 
 Para gestionar las imágenes, se utiliza el comando:
 ```
@@ -240,8 +241,9 @@ Para crear un contenedor (y ponerlo en marcha):
 ```
     sudo docker run --name=CONTENEDOR REPOSITORIO
 ```
-El problema de este comando es que dejamos de tener acceso a la shell y sólo se puede parar el procesodesde otro terminal.
+El problema de este comando es que dejamos de tener acceso a la shell y sólo se puede parar el proceso desde otro terminal.
 Lo habitual es poner en marcha el contenedor en modo separado (detached), es decir, en segundo plano, yasí podemos seguir utilizando la shell:
+
 ```
     sudo docker run -d --name=CONTENEDOR REPOSITORIO
 ```
@@ -251,11 +253,11 @@ Si queremos ver la secuencia de arranque del contenedor, podemos poner en marcha
 ```
 Al crear el contenedor se pueden añadir diversas opciones:
 
-- Para incluir el contenedor en una red privada virtual (y que se pueda comunicar con el resto  decontenedores incluidos en esa red):
+- Para incluir el contenedor en una red privada virtual (y que se pueda comunicar con el resto  de contenedores incluidos en esa red):
 ```
     sudo docker run --name=CONTENEDOR --net=RED REPOSITORIO
 ```
-- Para que el contenedor atienda a un puerto determinado, aunque internamente atienda un puertodistinto:
+- Para que el contenedor atienda a un puerto determinado, aunque internamente atienda un puerto distinto:
 ```
     sudo docker run --name=CONTENEDOR -p PUERTO_EXTERNO:PUERTO_INTERNO REPOSITORIO
 ```
@@ -347,7 +349,7 @@ Para borrar una red:
     - Imágenes:
 ```
         sudo docker image prune
-``` 
+```
     - Volúmenes:
 ```
         sudo docker volume prune
