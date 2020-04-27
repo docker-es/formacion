@@ -10,10 +10,10 @@ date_published: 2019-05-10
 
 ## Introducción
 
-Docker esta presente en un alto numero de ecosistemas cloud publicos y soportado por multiples plataformas y funciona en multiples host con sus diferente OS.
+Docker está presente en un alto número de ecosistemas cloud públicos y soportado por múltiples plataformas y funciona en múltiples host con sus diferente OS.
 
-Poder gestionar con un unico comando con la interaccion  minima de un usuario nos ayuda a simplificar y unificar la experienca del usuario.
-Este comando permite pasar intruccions sobre los script para lanzar Docker simplificando el uso de los contenedores.
+Poder gestionar con un único comando con la interacción  mínima de un usuario nos ayuda a simplificar y unificar la experiencia del usuario.
+Este comando permite pasar instrucción sobre los scripts para lanzar Docker simplificando el uso de los contenedores.
 
 ## Instalación de Docker Machine
 
@@ -30,21 +30,21 @@ docker-machine version 0.7.0, build a650a40
 
 ## Utilizando Docker Machine con VirtualBox
 
-Vamos a ver distintos ejemplos de Docker Machine, utilizando distintos drivers. En primer lugar vamos a utilizar el driver de VirtualBox que nos permitirá crear una máquina virtual con Docker Engine en un ordenador donde tengamos instalado VirtualBox. Para ello ejecutamos la siguiente instrucción:
+Vamos a ver distintos ejemplos de Docker Machine, utilizando distintos drivers. Primero vamos a utilizar el driver de VirtualBox que nos permitirá crear una máquina virtual con Docker Engine en un ordenador donde tengamos instalado VirtualBox. Para ello ejecutamos la siguiente instrucción:
 ```
 $ docker-machine create -d virtualbox nodo1
 ```
 
-Esta instrucción va  a crear una nueva máquina (nodo1) donde se va a instalar una distribución Linux llamada node1. Utilizando el driver de VirtualBox podemos indicar las características de la máquina que vamos a crear por medio de parámetros, por ejemplo podemos indicar las características hardware (--virtualbox-memory, --virtualbox-disk-size, …) Para más información de los parámetros que podemos usar puedes mirar la [documentación del driver](https://docs.docker.com/machine/drivers/virtualbox/).
+Esta instrucción va  a crear una nueva máquina (nodo1) donde se va a instalar una distribución Linux llamada node1. Utilizando el driver de VirtualBox podemos indicar las características de la máquina que vamos a crear por medio de parámetros, podemos indicar las características hardware (--virtualbox-memory, --virtualbox-disk-size, …) Para más información de los parámetros que podemos usar puedes mirar la [documentación del driver](https://docs.docker.com/machine/drivers/virtualbox/).
 
-Docker Machine crea una unica SSH-Keyy para la maquina virtual, esto significa que tu podras acceder usando SSH mas tarde, una vez que tu maquina esta inicidad del todo, que entoces Docker Machine realizara la conexion con la maquina virtual.
+Docker Machine crea una única SSH-Keyy para la máquina virtual, esto significa que tu podrás acceder usando SSH mas tarde, una vez que tu maquina esta iniciada del todo, y entonces Docker Machine realizara la conexión con la maquina virtual.
 
 
 Una vez creada la máquina podemos comprobar que lo tenemos gestionados por Docker Machine, para ello:
 
 $ docker-machine ls
 
-A continuación para conectarnos desde nuestro cliente docker al Docker Engine de la nueva máquina necesitamos declarar las variables de entornos adecuadas, para obtener las variables de entorno de esta máquina podemos ejecutar:
+Para conectarnos desde nuestro "cliente docker"  al "Docker server Engine" de la nueva máquina necesitamos declarar las variables de entornos adecuadas, para obtener las variables de entorno de esta máquina podemos ejecutar:
 
 $ docker-machine env nodo1
 

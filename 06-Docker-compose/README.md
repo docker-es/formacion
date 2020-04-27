@@ -17,13 +17,15 @@ $ docker network create moby-counter
 $ docker container run -d --name redis --network moby-counter redis:alpine$ docker container run -d --name moby-counter --network moby-counter -p8080:80 russmckendrick/moby-counter
 ```
 
-Cada vez que necesitamos usar, aztualizar, o instalar los contenedores en otro entorno deveriamos guardar, y gestionar todas las instrucciones, ademas tenemos que tener encuenta que comandos debemos repetir, de ver si hace falta crear o no las redes de nuevo (por ejemplo).
+Cada vez que necesitamos usar, actualizar, o instalar los contenedores en otro entorno deberíamos guardar, y gestionar todas las instrucciones, además tenemos que tener encuentra que comando debemos repetir, de ver si hace falta crear o no las redes de nuevo (por ejemplo).
 
 Docker-compose  permite usar un archivo YAML para definir cómo le gustaría que se estructurara su aplicación de **múltiples** contenedores. Se tomaría el archivo YAML y se automatizaría el lanzamiento de los contenedores tal como se definió. La ventaja de esto fue que, debido a que era un archivo YAML, es muy fácil para los desarrolladores comenzar a enviar los archivos junto con sus archivos Docker dentro de sus bases de código.
 
 Como ya se mencionó, Docker Compose usa un archivo YAML, normalmente denominado docker-compose.yml, para definir cómo debería verse su aplicación de múltiples contenedores.
 
-TheDocker Compose la representación de la aplicación de dos contenedores que lanzamos en el Capítulo 4, Administración de Contenedores, y el Capítulo 5, Docker Machinees de la siguiente manera:
+## The Docker Compose 
+
+La representación de la aplicación de dos contenedores que lanzamos en el Capítulo 4, Administración de Contenedores, y el Capítulo 5, Docker Machinees de la siguiente manera:
 
 ```
     version: "3"
@@ -96,8 +98,8 @@ docker-compose up -d
 ``` bash
 docker-compose down
 # Eliminar los volumenes también:
-# docker-compose --volumes
-# Eliminar con un nombre de proyecto especifico:
+# docker-compose --volumenes
+# Eliminar con un nombre de proyecto específico:
 # docker-compose -p mi-proy down
 ```
 - Logs
@@ -117,16 +119,16 @@ docker-compose logs
 docker ps
 ## Ver imágenes
 docker images
-## Ingresar a un contenedores
+## Ingresar en un contenedores
  docker exec -it <nombre_contenedor> bash
 ## Ver logs de un contenedor
 docker logs <nombre_contenedor> -f
 ## Eliminar imágenes huérfanas
 docker rmi $(docker images -f "dangling=true" -q)
 
-## Eliminar todas las imágenes de docker
+## Eliminar todas las imágenes  docker
 docker rmi $(docker images -q)
 
-## Eliminar todos los contenedores de docker
+## Eliminar todos los contenedores  docker
 docker rm $(docker ps -a -q)
 ```
