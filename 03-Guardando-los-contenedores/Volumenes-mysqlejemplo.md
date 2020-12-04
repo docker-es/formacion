@@ -18,7 +18,7 @@ Lo primero que hay que hacer es descargar el contenedor de Mysql con el siguient
 $ docker run -d -p 33060:3306 --name mysql-db -e MYSQL_ROOT_PASSWORD=secret mysql
 
     -d: Deatached Mode es la forma en que indicamos que corra en background.
-    -p : puerto, el contenedor corre en el puerto 3306 pero hacemos un bind para que lo escuchemos en Host el puerto 33061.
+    -p : puerto, el contenedor corre en el puerto 3306 pero hacemos un bind para que lo escuchemos en Host el puerto 33060.
     –name : para no tener que hacer referencia al hash le asignamos un nombre.
     -e : environment le asignamos la contraseña.
 ```
@@ -27,7 +27,7 @@ Con esta tenemos nuestro contenedor escuchando
 CONTAINER ID        IMAGE               CREATED             STATUS              PORTS                                NAMES
 b62caa4104ed        mysql               5 minutes ago       Up 5 minutes        33060/tcp, 0.0.0.0:33060->3306/tcp   mysql-db
 
-Entrar al contenedor
+## Entrar al contenedor
 
 Para entrar al contenedor usamos un modo interactivo para asignar un TTY(terminal) y un STDIN abierto
 ```
@@ -79,8 +79,8 @@ Conectar el Host al contenedor
 
 Cuando levantamos el contenedor creamos una interfaz al puerto 33060:3306 donde el contenedor utiliza el puerto 3306 pero en el host 33060
 
-De esta forma podemos conectar el host mediante el Workbench.
-conectar mysql workbench a un contenedor as @saidmlx
+De esta forma podemos acceder  la base de datos y gestioinarla mediante el programa Workbench.
+Conecta al  mysql con  workbench a un contenedor as @saidmlx
 Montar un volumen
 
 Hasta este punto no persistimos los datos que se realicen en nuestro contenedor lo que significa que cuando terminamos con el proceso los cambios se perderán, para eso Docker nos dice que hay que utilizar volúmenes que no es otra cosa que una parte del disco Host se reserve para los datos generados en el contenedor(no el contenedor).
@@ -88,29 +88,29 @@ Hasta este punto no persistimos los datos que se realicen en nuestro contenedor 
 Para eso seguimos los siguientes pasos:
 
     Eliminamos el proceso que corre el contenedor creado.
-
+    
     $ docker rm -f mysql-db
-
+    
     Eliminamos todos los volúmenes ya que Docker crea volúmenes temporales sin pedirte permiso.
-
+    
     $ docker volume prune
-
+    
     Creamos un volumen
-
+    
     $ docker volume create mysql-db-data
-
+    
     Verificamos que se haya creado el volumen
-
+    
     $ docker volume ls
     DRIVER              VOLUME NAME
     local               mysql-db-data
-
-    Levantamos nuevamente el Docker y agregamos el volumen con la opcion --mount
-
+    
+    Levantamos nuevamente el Docker y agregamos el volumen con la opción --mount
+    
     $  docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql
-
+    
     Entramos al contenedor de forma interactiva o desde el Workbench y creamos una base de datos
-
+    
     $ docker exec -it mysql-db mysql -p
     ...
     mysql> create database demo;         
@@ -129,17 +129,17 @@ Para eso seguimos los siguientes pasos:
     5 rows in set (0.00 sec)             
                                         
     mysql>                          
-
+    
     Terminamos el proceso tal como en el paso 1
-
+    
     $ docker rm -f mysql-db
-
+    
     Lanzamos nuevamente el proceso como en el paso 5
-
+    
     $  docker run -d -p 33060:3306 --name mysql-db  -e MYSQL_ROOT_PASSWORD=secret --mount src=mysql-db-data,dst=/var/lib/mysql mysql
-
+    
     Entramos nuevamente al contenedor de forma interactiva y podemos ver que la base de datos que creamos se encuentra
-
+    
     $ docker exec -it mysql-db mysql -p
     ...
     mysql> create database demo;         
@@ -159,4 +159,4 @@ Para eso seguimos los siguientes pasos:
                                         
     mysql>                          
 
-Y de esta forma ya estamos trabajando con volúmenes donde persistimos los datos el el Host de forma que si queremos utilizar la base de datos solo hay que montar el volumen.
+Y de esta forma ya estamos trabajando con volúmenes donde persistimos los datos el Host de forma que si queremos utilizar la base de datos solo hay que montar el volumen.

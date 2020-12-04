@@ -79,6 +79,34 @@ En el caso de la RAM podemos hacer algo similar e indicarle al contenedor solo l
     --memory-swappines especifica el porcentaje de memoria swap que puede usar sobre el total disponible. Como siempre el uso de swap no es nada recomendable por penalización del rendimiento.
     --kernel-memory es un limite a la memoria del kernel que puede usar el contenedor. Este tipo de límite no lo he usado mucho, pero conviene echarle un vistazo. Ayuda saber cuanta memoria tienes o más bien cuanto tienes en uso grep Slab /proc/meminfo. Es conveniente poner una media del 10% de la memoria que uses para el contenedor.
 
+Como ejemplo crearemos un contenedor con limitantes tanto en CPU como en RAM, por lo que primero ejecutaremos:
+
+    $ docker run -it --memory="512M" --cpu-shares 1024 --name container01 zokeber/centos /bin/sh
+
+Con el parámetro  --cpu-shares 1024 le indicamos que use el 50% del CPU y con --memory="512M" solo 512M de RAM. Verificamos que estos recursos asignados son los correctos, con docker inspect:
+```
+##Verificamos la RAM:
+$ docker inspect -f "{{ .HostConfig.Memory }}" container01
+536870912
+ 
+##Verificamos CPU:
+docker inspect -f "{{ .HostConfig.CpuShares }}" container02
+1024
+```
+Ahora bien, para asignarles mas RAM y que solo utilice el 25% de la CPU total, ejecutamos con docker update lo siguiente:
+
+    $ docker update --memory="1024M" --cpu-shares 512 container01
+
+En cambio, si queremos limitar solamente la RAM a 512M, ejecutamos:
+
+    $ docker update --memory="512M" container01
+
+Verificamos que el cambio a los recursos es el correcto:
+```
+##Verificamos la RAM:
+$ docker inspect -f "{{ .HostConfig.Memory }}" container01
+536870912
+```
 
 # Realizar copias de seguridad de contenedores
 a estén encendidos o apagados, podemos realizar respaldos de seguridad de los contenedores. Utilizando la opción «export» empaquetará el contenido, generando un fichero con extensión «.tar» de la siguiente manera:
