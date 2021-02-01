@@ -99,6 +99,16 @@ Reiniciamos la sesión en el sistema. En caso de utilizar una máquina virtual e
 
 Si la instalación se realizó correctamente, ejecutamos el siguiente comando para levantar el contenedor hello-world: docker run hello-world
 
+## Diagrama básico de la arquitectura de docker
+
+![docker_engine](/home/mario/Documentos/repositorios/docker-es/formacion/01-instalacion/docker_engine.png)
+
+No es lo mismo docker(producto) docker-ce o containerD.
+
+Estos proyectos los tienes en la CNCF  [Cloud Native Interactive Landscape](https://landscape.cncf.io/)
+
+
+
 ## Algunos tips
 
 Crea el grupo docker si no existe ya:
