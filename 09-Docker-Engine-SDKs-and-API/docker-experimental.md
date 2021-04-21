@@ -1,18 +1,18 @@
-# Develop with Docker Experimental Feature
+# Develop  Docker Experimental Feature
 
-Para usar las caracteristicas experimentales en Docker hay que ajustar el servidor y el cliente de Docker, en esta imagen vemos como esta activado solo en uno de los dos: usamos `docker version`
+Para usar las características experimentales en Docker hay que ajustar el servidor y el cliente de Docker, en esta imagen vemos como esta activado solo en uno de los dos: usamos `docker version`
 
 Te indico como configurar cada uno de ellos.
 
 ##### Como activamos el server
 
-Necesitas modifcar el fichero del servicio de la configuración
+Necesitas modificar el fichero del servicio de la configuración
 
 ```
 sudo vim /etc/docker/daemon.json
 ```
 
-Añadimos el siguiente texto ( ten en cueta que puedes tener mas configuraciones, entoces respecta el formato json)
+Añadimos el siguiente texto ( ten en cuenta que puedes tener mas configuraciones, entonces respeta el formato json)
 
 ```
 { 
@@ -46,7 +46,7 @@ En mi mac se puede hacer editando desde preferencias:
 
 ##### Como activamos en el CLI
 
-Podemos activalo de forma temporal para el cliente:
+Podemos activarlo de forma temporal para el cliente:
 
 ```
 $ docker version
@@ -56,7 +56,7 @@ $ docker version
  Experimental:      true
 ```
 
-Si queremos que  sea de foma permanente debemos añadir en el fichero config.json  del CLI , en el server se llama igual el fichero ten cuidad es facil equivocarse
+Si queremos que  sea de forma permanente debemos añadir en el fichero config.json  del CLI , en el server se llama igual el fichero ten cuidad es fácil equivocarse
 
 En el fichero `$ vim ~/.docker/config.json` 
 
@@ -70,7 +70,7 @@ Ten en cuenta que es un json puede ser que necesites añadir {} o comas respecta
 
 Podemos también usar `docker version -f '{{.Server.Experimental}}'`
 
-En este caso la salida de `docker version` marcado en rojo las caracteristitcas, se pueden ver como estan activadas.
+En este caso la salida de `docker version` marcado en rojo las característitcas, se pueden ver como están activadas.
 
 ![modo-temporal](/Users/wbug/Documents/repositorios/docker-formacion/formacion/09-Docker-Engine-SDKs-and-API/modo-temporal.png)
 
@@ -82,13 +82,13 @@ En este caso la salida de `docker version` marcado en rojo las caracteristitcas,
 
 Hay que tener muy presente que las funciones experimentales experimentan cambios con las versiones. Estas características dan acceso anticipado a las funciones que pueden aparecer en versiones futuras. A veces, esas características se convierten en una versión final y, a veces, se desaparecen. 
 
-Una búsqueda rápida de la documentación actual de Docker revela que las siguientes características están incluidas en la lista experimental ***no estan todas*** y por supuesto, esto podría cambiar en cualquier momento:
+Una búsqueda rápida de la documentación actual de Docker revela que las siguientes características están incluidas en la lista experimental ***no están todas*** y por supuesto, esto podría cambiar en cualquier momento:
 
 - [docker assemble](https://docs.docker.com/assemble/install/) es un complemento que proporciona una herramienta compatible con el framework-aware  para permitir a los usuarios crear una aplicación en un contenedor Docker optimizado. Con esta función, es posible crear rápidamente imágenes de Docker sin proporcionar información de configuración.
 - [docker deploy](https://docs.docker.com/engine/reference/commandline/deploy/) es un alias para stack deploy. Esta función es compatible con la versión de fichero "compose" 3.0 y superior.
 - [docker manifest inspect](https://docs.docker.com/engine/reference/commandline/manifest_inspect/) muestra un "manifest" de imagen o una lista de "manifiéstala".
 - [docker checkpoint](https://docs.docker.com/engine/reference/commandline/checkpoint_create/) create crea un punto de control desde un contenedor en ejecución.
-- [docker buildx](https://docs.docker.com/buildx/working-with-buildx/) es un complemento CLI que amplía el comando docker con las características (proporcionadas por [Moby BuildKit](https://github.com/moby/buildkit) ) como crear contenderos para distintas arquitecturas como ARM, compilar en varios nodos al mismo tiempo, recolección automática garaje, formatos frontend extensibles, importar / exportar caché de compilación y más.
+- [docker buildx](https://docs.docker.com/buildx/working-with-buildx/) es un complemento CLI que amplía el comando docker con las características (proporcionadas por [Moby BuildKit](https://github.com/moby/buildkit) ) como crear contenedores para distintas arquitecturas como ARM, compilar en varios nodos al mismo tiempo, recolección automática garaje, formatos frontend extensibles, importar / exportar caché de compilación y más.
 
 También debe tenerse en cuenta que algunos de los comandos experimentales están disponibles para el motor docker estándar, mientras que otros solo están disponibles para los motores docker-ce o docker-ee.
 
@@ -106,7 +106,7 @@ Y así es como puede acceder a las funciones experimentales de Docker.
 
 
 
-Con la aparicion de distaintas arquitecturas Intel Arm y Darwin, podemos necesitar característica. 
+Con la aparición de distintas arquitecturas Intel Arm y Darwin, podemos necesitar característica. 
 
 **BuildKit**  está diseñado para crear contenedores  para la construcción de múltiples plataformas y no solo para la arquitectura y el sistema operativo que el usuario que en  la que se ejecuta la construcción.
 
@@ -181,13 +181,13 @@ Ya podemos crear imágenes de Docker de arquitectura múltiple con buildx. Para 
 FROM alpine:latest
 CMD echo “Running on $(uname -m)”
 ```
-Ahora autenticaremos para dejar las imagesnes en nuestro repositorio, este caso usare Docker hub https://hub.docker.com/
+Ahora autenticaremos para dejar las imágenes en nuestro repositorio, este caso usare Docker hub https://hub.docker.com/
 
 ´docker login -u marioezquerro´
 
-Nos pedira la contraseña, si todo es correcto tenedremos un "Login Succeeded"
+Nos pedirá la contraseña, si todo es correcto tendremos un "Login Succeeded"
 
-Ahora podemos crear las imagenes y subirlas al repositorio.
+Ahora podemos crear las imágenes y subirlas al repositorio.
 
 ```shell
 $ docker buildx build -t mario.ezquerro/buildx-test:latest --platform linux/amd64,linux/arm64,linux/ppc64le --push .
@@ -198,13 +198,13 @@ Si todo es correcto veremos la salia y la subida en el repositorio.
 
 
 
-Nos encontraremos las imagesnes en el repositior las imagenes para las distintra plataformas creadas.
+Nos encontraremos las imágenes en el repositorio las imágenes para las distintas plataformas creadas.
 
 ![imagenes-creadas](imagenes-creadas.png)
 
 
 
-Bueno ya podemos usar esta images.
+Bueno ya podemos usar esta imágen.
 
 ```shell
 $ docker run --rm marioezquerro/buildx-test:latest
