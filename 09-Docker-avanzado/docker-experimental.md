@@ -225,3 +225,34 @@ $ docker inspect --format “{{.Architecture}}” marioezquerro/buildx-test:late
 $ docker run --rm --platform linux/aarch64  marioezquerro/buildx-test:latest”
 “Running on x86_64”
 ```
+
+## La relacion entre las arquitecturas de las plataformas:
+
+
+
+Para que es cada plataforma que nos identifica el comando:
+
+```shell
+docker buildx inspect --bootstrap                                                                                                            
+Name:   mybuilder
+Driver: docker-container
+
+Nodes:
+Name:     mybuilder0
+Endpoint:  unix:///var/run/docker.sock
+Status:    running
+Platforms: linux/amd64, linux/arm64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6
+```
+
+
+
+| Value   | Normalized | Ejemplo                                                      |
+| ------- | ---------- | ------------------------------------------------------------ |
+| aarch64 | arm64      | the latest v8 arm architecture. Used on Apple M1, AWS Graviton, and Raspberry Pi 3's and 4's |
+| armhf   | arm/v7     | 32-bit v7 architecture. Used in Raspberry Pi 3 and  Pi 4 when 32bit Raspbian Linux is used |
+| armel   | arm/v6     | 32-bit v6 architecture. Used in Raspberry Pi 1, 2, and Zero  |
+| i386    | 386        | older Intel 32-Bit architecture, originally used in the 386 processor |
+| x86_64  | amd64      | all modern Intel-compatible x84 64-Bit architectures         |
+| x86-64  | amd64      | same                                                         |
+
+Las mas interesantes a mi entender las usadas para Rasberry, diferencia entre las zero,1,2 y la 3 y 4 y las otra plataforma la que forman los Macintos con M1 en adelante.
