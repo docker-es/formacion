@@ -375,6 +375,6 @@ Para borrar una red:
         sudo docker network prune
 ```
     - todo:
-```
+``` 
         sudo docker system prune
 ```
