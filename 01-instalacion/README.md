@@ -18,7 +18,11 @@ En julio de 2018, Docker anunció que volvían a un desarrollo más pausado. Por
 
 Docker ofrece una versión Enterprise (de pago) y una versión Community (gratuita). La diferencia radica en el nivel de soporte y certificación que proporciona Docker a la versión Enterprise.
 
-![Cronograma de versiones](./cronograma.png)
+![Cronograma de versiones](cronograma.png)
+
+Docker empezó estando disponible solamente para distribuciones GNU/Linux, pero desde junio de 2016 también está disponible como aplicación nativa en Windows Server 2016 y Windows 10.
+
+Docker utiliza la virtualización ofrecida por el sistema operativo. En el caso de Windows 10, eso significa que para usar Docker de forma nativa hay que activar Hyper-V (solo posible en windows profesional, no esta en windows Home) que, por desgracia, es incompatible con VirtualBox. Para poder utilizar Docker en Windows 7 o en Windows 10 sin Hyper-V, Docker ofrece desde agosto de 2015 [Docker Toolbox](https://github.com/docker/toolbox), que realmente es una máquina virtual (que se ejecuta en VirtualBox) que contiene Docker.
 
 Los contenedores se distinguen de las máquinas virtuales en que las máquinas virtuales emulan un ordenador físico en el que se instala un sistema operativo completo, mientras que los contenedores usan el kernel del sistema operativo anfitrión pero contienen las capas superiores (sistema de ficheros, utilidades, aplicaciones).
 
@@ -52,6 +56,7 @@ La siguiente ilustración muestra la diferencia entre un servidor dedicado y no 
 
 
 ## Instalación de Docker
+[Cambia a menudo pasarse por la fuente](https://docs.docker.com/get-docker/)
 
 Dependiendo del sistema operativo utilizado, realizar la instalación de Docker y docker-compose (sólo Linux)
 
@@ -99,6 +104,16 @@ Reiniciamos la sesión en el sistema. En caso de utilizar una máquina virtual e
 
 Si la instalación se realizó correctamente, ejecutamos el siguiente comando para levantar el contenedor hello-world: docker run hello-world
 
+## Diagrama básico de la arquitectura de docker
+
+![docker_engine](docker_engine.png)
+
+No es lo mismo docker(producto) docker-ce o containerD.
+
+Estos proyectos los tienes en la CNCF  [Cloud Native Interactive Landscape](https://landscape.cncf.io/)
+
+
+
 ## Algunos tips
 
 Crea el grupo docker si no existe ya:
@@ -144,11 +159,8 @@ Creo que son las configuraciones más importantes:
 
 
 
-
-
 ## Instalacion en Linux
 Abrimos un entorno shell y en modo superusuario podemos hacer la instalación para un ubuntu
-
 
 ```
 $ curl -sSL https://get.docker.com/ | sh
@@ -361,6 +373,6 @@ Para borrar una red:
         sudo docker network prune
 ```
     - todo:
-```
+``` 
         sudo docker system prune
 ```

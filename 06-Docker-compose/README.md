@@ -1,12 +1,27 @@
 ---
 title: Usando Docker compose.
-description: Aprendemos Docker-compose y a usar las regras
+description: Aprendemos Docker-compose y a usar las regras diferencias entre v1 y v2
 author: Mario Ezquerro
 tags: Docker, 
 date_published: 2019-05-10
+Date_update: 2021-08-23
 ---
 
-# Introducción Docker-compose
+
+
+# Docker-compose v1 y v2
+Docker Compose es la herramienta por excelencia para trabajar con contenedores, durante mucho tiempo fue un proyecto independiente. Se instalaba descargado a parte del Docker. en la DockerCon de2021 se anuncio que se integra dentro  del Cocker CLI añadiendo nuevas funciones que facilitan la administración de contenedores.
+
+El comando `docker-compose`  actualmente puede invocar v1 o v2, el valor predeterminado es v1. La opción se habilita automáticamente para un subconjunto de usuarios; eventualmente lanzará v2 para todos.
+
+Puedes cambiar manualmente docker-compose entre v1 y v2 ejecutando `docker-compose disable-v` o `docker-compose enable-v`. Esto le permite mantener la compatibilidad con cualquier archivo Compose existente que no funcione con v2. docker compose Los comandos siempre usarán v2
+
+Internamente, Compose v2 usa **Buildkit** por defecto para compilaciones más rápidas. El rendimiento general debería ser más rápido ya que varias tareas se ejecutan en paralelo, lo que reduce el tiempo de procesamiento.
+
+
+
+
+# Introducción Docker-compose [v1]
 
 Por ejemplo, si quisiera  implementara la misma aplicación, tendría que usar los siguientes comandos:
 
@@ -23,7 +38,7 @@ Docker-compose  permite usar un archivo YAML para definir cómo le gustaría que
 
 Como ya se mencionó, Docker Compose usa un archivo YAML, normalmente denominado docker-compose.yml, para definir cómo debería verse su aplicación de múltiples contenedores.
 
-## The Docker Compose 
+## The Docker Compose  [v1]
 
 La representación de la aplicación de dos contenedores que lanzamos en el Capítulo 4, Administración de Contenedores, y el Capítulo 5, Docker Machinees de la siguiente manera:
 
@@ -75,7 +90,7 @@ La aplicación de votación nuestro archivo Docker Compose es un ejemplo bastant
 
 
 
-# Docker Compose commands
+# Docker Compose commands  [v1]
 
 - Detener el proyecto
 ```bash
@@ -113,7 +128,7 @@ docker-compose logs
 
 
 
-### - Algunos comandos útiles de Docker
+### - Algunos comandos útiles de Docker  [v1]
 ``` bash
 ## Ver contenedores
 docker ps
