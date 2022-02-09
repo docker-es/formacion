@@ -1,6 +1,8 @@
 ## Control de Containers con  Namespaces
 ## Docker y --userns-remap
 
+Tienes tambien la información (en:)[https://github.com/docker-es/formacion/blob/master/04-Gestion-Contenedoes/linux-user-namespaces.md]
+
 Un namespace puede evitar que los contenedores se ejecuten como usuarios privilegiados, como el daemon de docker suele iniciarse con el usuario root, los conedores internamente se pesentan con este usuario, lo que permite una  escalada de privilegios, sobretodo en el "mapeo" de volumenes.
 
 Otro problem que necesitamos solucionar es os archivos creados dentro de los contenedores tienden a tener una propiedad impredecible al inspeccionarlos desde el host. El propietario de los archivos en un volumen es root (uid 0) por defecto, pero tan pronto como las cuentas de usuario no root están creadas dentro en el contenedor y escriben en el sistema de archivos, y estas no existen en los host, los propietarios se vuelven más o menos aleatorios desde la perspectiva del host.
