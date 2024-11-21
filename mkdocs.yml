@@ -1,0 +1,7 @@
+site_name: Documentacion Docker Español
+site_url: http://dockeres.es
+nav:
+  - Home: index.md
+  - About: ..README.md
+  - Licence: ../LICENSE
+theme: readthedocs
